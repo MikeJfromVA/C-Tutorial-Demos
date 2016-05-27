@@ -51,5 +51,5 @@ Yay knowledge!
 
 Here is a cow :cow:.  Here is some code:
 
-* integerConversionRules.c 
+* integerConversionRules.c  Some confusing or enlightening examples of integer conversions and promotions.
 

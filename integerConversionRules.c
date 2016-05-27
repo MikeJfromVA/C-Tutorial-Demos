@@ -1,47 +1,43 @@
 #include <stdio.h>
 #include <limits.h> // Useful for max values of types
 
-main (int argc, char **argv) {
+int main (int argc, char **argv) {
 
 	// Example Apple : Integer Promotions
-	char appleCharOp1, appleCharOp2;
-	char appleCharSum;
-	int appleIntSum;
+	unsigned char appleCharOp1, appleCharOp2, appleCharOp3;
+	unsigned char appleCharResult;
+	unsigned char appleCharWrongResult;
 
-	appleCharOp1 = CHAR_MAX;
-	appleCharOp2 = CHAR_MAX;
-	appleCharSum = appleCharOp1 + appleCharOp2;
-	appleIntSum = appleCharOp1 + appleCharOp2;
+	appleCharOp1 = 80;
+	appleCharOp2 = 70;
+	appleCharOp3 = 100;
+	appleCharResult = appleCharOp1 * appleCharOp2 / appleCharOp3;
+	appleCharWrongResult = (unsigned char)(appleCharOp1 * appleCharOp2) / appleCharOp3;
 
-	// -1L > 1U
-	// x86 rank promotion -1L > 1UL (Would be U->L except 32 bits signed
-	//	cannot hold every value of 32 bits unsigned)
-	// x86 favor unsigned: -1UL > 1UL IE MAX > 1 TRUE
-	// x86_64 rank promotion -1L > 1L (U -> L)
-	// True on x86, false on x86_64
-	printf ("x86 -1L > 1U    %d\n",-1L > 1U);
+	/* Apple Explanation : uchar promoted to uint during arithmetic.
+		So the final sum of appleCharResult is correct.
+	*/
 
+	// Example Banana : Casting and Conversions
+	unsigned char bananaChar1 = UCHAR_MAX;
+	int bananaInt1 = bananaChar1;	
+	char bananaChar2 = CHAR_MIN;
+	unsigned int bananaInt2 = bananaChar2;	
+	char bananaChar3 = CHAR_MIN;
+	int bananaInt3 = bananaChar3;	
 
-	// SCHAR_MAX == CHAR_MAX 
+	/* Banana Explanation: Conversion sign-extends in a sensible way. 
+		The unsigned 8-bit is not sign-extended going to 16-bits.
+		The signed 8-bit is sign-extended going to 16-bits.
+		The unsigned 16-bit cannot old a negative value, so the
+			representation of the 8-bit value changes to 255.
+	*/
 
-	// UINT_MAX + 1
-	// 1) punk promotions: none
-	// 2) rank promotion: none; both ints
-	// 3) sign promotion: 1 converts 
-	// UINT_MAX + 1U = 0
-
-	// INT_MAX + 1
-	// No conversions
-	// INT_MAX = 0111 + 1 = 1000 -> 0111 -> 1000 uh -128?
-	// Maybe, but overflowing an integer is undefined behavior
-	printf ("INT_MAX + 1    %d\n",INT_MAX+1);
-	printf ("INT_MIN     %d\n",INT_MIN);
-	printf ("INT_MAX     %d\n",INT_MAX);
-
-	printf ("0 << 32     %d\n",0<<32);
-
-	int x = INT_MIN;
-	x = 1 + 1;
-	// Warning?
+	// Example Cantaloupe
+	unsigned int cantaloupeInt1 = UINT_MAX / 4;
+	unsigned int cantaloupeInt2 = UINT_MAX / 8;
+	unsigned int cantaloupeInt3 = UINT_MAX / 16;
+	unsigned long long cantaloupeLongLongResult1 = cantaloupeInt1 * cantaloupeInt2 / cantaloupeInt3;
+	unsigned long long cantaloupeLongLongResult2 = (unsigned long long) cantaloupeInt1 * (unsigned long long) cantaloupeInt2 / (unsigned long long) cantaloupeInt3;
 
 }	

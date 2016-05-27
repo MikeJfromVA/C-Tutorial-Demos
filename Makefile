@@ -17,12 +17,12 @@ externB.o: externB.c
 	$(CC) -c $<
 
 extern: externA.o externB.o
-	$(CC) -o $@ $?
+	$(CC) -g -o $@ $?
 
 # Normal cases
 
 $(OBJECTS): %: %.c
-	$(CC) -o $@ $<
+	$(CC) -g -o $@ $<
 
 .PHONY: clean
 clean:
